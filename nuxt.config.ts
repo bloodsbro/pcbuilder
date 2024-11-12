@@ -23,6 +23,11 @@ export default defineNuxtConfig({
       type: "mysql",
     },
 
+    rateLimit: {
+      perTime: 10 * 1000,
+      maxRequests: 25,
+    },
+
     public: {
       appVersion: '0.3.2'
     }
@@ -47,5 +52,8 @@ export default defineNuxtConfig({
         },
       },
     },
+  },
+  routeRules: {
+    '/**': { middleware: 'rateLimit' },
   },
 })
