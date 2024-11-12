@@ -1,23 +1,16 @@
 import {getRepository} from "#typeorm";
 import {User} from "~~/server/entities/user.entity";
 import {Component} from "~~/server/entities/component.entity";
-
-interface ComponentQuery {
-  category: string;
-  name: string;
-  brand?: string;
-  mode?: string;
-}
+import {AddComponentDto} from "~~/server/dto/component/addComponentDto";
+import {validatePostRequest} from "~~/server/utils/validateRequest";
 
 export default defineEventHandler(async (event) => {
-  const query = await readBody<ComponentQuery>(event);
-  if (!query || query.name.length < 3 || !['processor', 'gpu', 'ram', 'hdd', 'ssd'].includes(query.category)) {
-    return { ok: false, error: 'errors.component.invalid.name' };
+  const res = await validatePostRequest(event, AddComponentDto);
+  if (res.isErr()) {
+    return { ok: false, error: res.error }
   }
 
-  if (!event.context.user) {
-    return { ok: false, error: 'errors.auth.notAuthorized' };
-  }
+  const data = res.value;
 
   const userRepository = await getRepository(User);
 
@@ -30,10 +23,10 @@ export default defineEventHandler(async (event) => {
 
   const componentRepository = await getRepository(Component);
   const insert = await componentRepository.insert({
-    category: query.category,
-    name: query.name,
-    brand: query.brand,
-    model: query.model,
+    category: data.category,
+    name: data.name,
+    brand: data.brand,
+    model: data.model,
   });
   if (insert.identifiers.length === 0) {
     return { ok: false, error: 'errors.component.invalid.name' };

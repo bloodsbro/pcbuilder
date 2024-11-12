@@ -1,27 +1,18 @@
-import {defineEventHandler} from "h3";
+import {defineEventHandler, H3Error} from "h3";
 import {getRepository} from "#typeorm";
 import {User} from "~~/server/entities/user.entity";
 import {createToken} from "~~/server/utils/session";
-import {isStrongPassword, isEmail} from "class-validator";
 import bcrypt from "bcrypt";
-
-interface RegisterData {
-  email: string;
-  password: string;
-  username: string;
-}
+import {RegisterDto} from "~~/server/dto/auth/RegisterDto";
+import {validatePostRequest} from "~~/server/utils/validateRequest";
 
 export default defineEventHandler(async (event) => {
-  const data = await readBody<RegisterData>(event);
-  if (!isEmail(data.email) || !isStrongPassword(data.password, {
-    minLength: 6,
-    minNumbers: 1,
-    minSymbols: 1,
-    minLowercase: 1,
-    minUppercase: 1,
-  })) {
-    return { ok: false, error: 'errors.register.data.invalid' };
+  const res = await validatePostRequest(event, RegisterDto);
+  if (res.isErr()) {
+    return { ok: false, error: res.error }
   }
+
+  const data = res.value;
 
   const userRepository = await getRepository(User);
 

@@ -1,22 +1,16 @@
 import {getRepository} from "#typeorm";
 import {User} from "~~/server/entities/user.entity";
 import {Specification} from "~~/server/entities/specification.entity";
-
-interface SpecificationQuery {
-  name: string;
-  applicableTypes: (typeof Specification.applicableTypes)[],
-  unit: string;
-}
+import {AddSpecificationDto} from "~~/server/dto/specification/AddSpecificationDto";
+import {validatePostRequest} from "~~/server/utils/validateRequest";
 
 export default defineEventHandler(async (event) => {
-  const query = await readBody<SpecificationQuery>(event);
-  if (!query || query.name.length < 3 || query.unit.length < 3 || query.applicableTypes.some((el) => !['processor', 'gpu', 'ram', 'hdd', 'ssd'].includes(el))) {
-    return { ok: false, error: 'errors.specification.invalid.name' };
+  const res = await validatePostRequest(event, AddSpecificationDto);
+  if (res.isErr()) {
+    return { ok: false, error: res.error }
   }
 
-  if (!event.context.user) {
-    return { ok: false, error: 'errors.auth.notAuthorized' };
-  }
+  const data = res.value;
 
   const userRepository = await getRepository(User);
 
@@ -29,9 +23,9 @@ export default defineEventHandler(async (event) => {
 
   const specificationRepository = await getRepository(Specification);
   const insert = await specificationRepository.insert({
-    name: query.name,
-    applicableTypes: query.applicableTypes,
-    unit: query.unit,
+    name: data.name,
+    applicableTypes: data.applicableTypes,
+    unit: data.unit,
   });
   if (insert.identifiers.length === 0) {
     return { ok: false, error: 'errors.specification.invalid.name' };
