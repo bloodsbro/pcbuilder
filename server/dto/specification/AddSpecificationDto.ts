@@ -1,10 +1,5 @@
-import {ArrayNotEmpty, IsArray, IsEnum, IsString, Length} from "class-validator";
+import {ArrayNotEmpty, IsArray, IsEnum, IsNumber, IsPositive, IsString, Length} from "class-validator";
 import {ComponentCategories} from "~~/server/dto/component/addComponentDto";
-
-export enum UnitEnum {
-  ghz = 'GHz',
-  mhz = 'MHz',
-}
 
 export class AddSpecificationDto {
   @IsString()
@@ -16,6 +11,7 @@ export class AddSpecificationDto {
   @IsEnum(ComponentCategories, { each: true, message: 'errors.specification.type.invalid' })
   applicableTypes: ComponentCategories[];
 
-  @IsEnum(UnitEnum, { message: 'errors.specification.unit.invalid' })
-  unit: UnitEnum;
+  @IsNumber()
+  @IsPositive()
+  unit: number;
 }

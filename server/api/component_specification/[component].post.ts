@@ -3,6 +3,7 @@ import {User} from "~~/server/entities/user.entity";
 import {ComponentSpecification} from "~~/server/entities/component_specification.entity";
 import {AddComponentSpecificationDto} from "~~/server/dto/component_specification/AddComponentSpecificationDto";
 import {validatePostRequest} from "~~/server/utils/validateRequest";
+import {Component} from "~~/server/entities/component.entity";
 
 export default defineEventHandler(async (event) => {
   const componentId = Number(event.context.params?.component);
@@ -31,9 +32,16 @@ export default defineEventHandler(async (event) => {
   // TODO: admin check
   // TODO: check component & specification exist
 
+  const componentRepository = await getRepository(Component);
+
+  const component = await componentRepository.findOne({ where: { id: componentId } });
+  if (!component) {
+    return { ok: false, error: 'errors.component.specification.notFound' }
+  }
+
   const componentSpecificationRepository = await getRepository(ComponentSpecification);
   const insert = await componentSpecificationRepository.insert({
-    component: componentId,
+    component: component.id,
     specification: data.specificationId,
     value: data.value,
   });

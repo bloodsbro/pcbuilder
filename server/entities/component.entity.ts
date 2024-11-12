@@ -1,5 +1,6 @@
 import {Column, CreateDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
 import {ComponentSpecification} from "~~/server/entities/component_specification.entity";
+import {ComponentCategories} from "~~/server/dto/component/addComponentDto";
 
 @Entity('component')
 export class Component {
@@ -9,8 +10,8 @@ export class Component {
   @Column({ type: 'varchar' })
   name: string;
 
-  @Column({ type: "enum", enum: ['processor', 'ram', 'gpu', 'hdd', 'ssd'] })
-  category: 'processor' | 'gpu' | 'ram' | 'hdd' | 'ssd';
+  @Column({ type: "enum", enum: ComponentCategories })
+  category: ComponentCategories;
 
   @Column({type: 'varchar', default: null, nullable: true})
   brand: string;
