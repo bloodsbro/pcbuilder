@@ -1,5 +1,5 @@
 import {getRepository} from "#typeorm";
-import {User} from "~~/server/entities/user.entity";
+import {User, UserRole} from "~~/server/entities/user.entity";
 import {Component} from "~~/server/entities/component.entity";
 import {AddComponentDto} from "~~/server/dto/component/addComponentDto";
 import {validatePostRequest} from "~~/server/utils/validateRequest";
@@ -19,7 +19,9 @@ export default defineEventHandler(async (event) => {
     return { ok: false, error: 'errors.auth.invalid' };
   }
 
-  // TODO: admin check
+  if (user.role < UserRole.ROLE_ADMIN) {
+    return { ok: false, error: 'errors.privileges.low' };
+  }
 
   const componentRepository = await getRepository(Component);
   const insert = await componentRepository.insert({

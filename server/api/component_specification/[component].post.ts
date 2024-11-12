@@ -1,9 +1,10 @@
 import {getRepository} from "#typeorm";
-import {User} from "~~/server/entities/user.entity";
+import {User, UserRole} from "~~/server/entities/user.entity";
 import {ComponentSpecification} from "~~/server/entities/component_specification.entity";
 import {AddComponentSpecificationDto} from "~~/server/dto/component_specification/AddComponentSpecificationDto";
 import {validatePostRequest} from "~~/server/utils/validateRequest";
 import {Component} from "~~/server/entities/component.entity";
+import {Specification} from "~~/server/entities/specification.entity";
 
 export default defineEventHandler(async (event) => {
   const componentId = Number(event.context.params?.component);
@@ -29,8 +30,9 @@ export default defineEventHandler(async (event) => {
     return { ok: false, error: 'errors.auth.invalid' };
   }
 
-  // TODO: admin check
-  // TODO: check component & specification exist
+  if (user.role < UserRole.ROLE_ADMIN) {
+    return { ok: false, error: 'errors.privileges.low' };
+  }
 
   const componentRepository = await getRepository(Component);
 

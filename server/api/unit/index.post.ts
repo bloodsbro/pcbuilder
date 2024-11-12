@@ -1,7 +1,7 @@
 import {AddUnitDto} from "~~/server/dto/unit/AddUnitDto";
 import {validatePostRequest} from "~~/server/utils/validateRequest";
 import {getRepository} from "#typeorm";
-import {User} from '~~/server/entities/user.entity';
+import {User, UserRole} from '~~/server/entities/user.entity';
 import {Unit} from '~~/server/entities/unit.entity';
 
 export default defineEventHandler(async (event) => {
@@ -19,7 +19,9 @@ export default defineEventHandler(async (event) => {
     return { ok: false, error: 'errors.auth.invalid' };
   }
 
-  // TODO: admin check
+  if (user.role < UserRole.ROLE_ADMIN) {
+    return { ok: false, error: 'errors.privileges.low' };
+  }
 
   const unitRepository = await getRepository(Unit);
   const insert = await unitRepository.insert({

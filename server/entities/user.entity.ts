@@ -1,6 +1,12 @@
 import {Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
-import {IsEmail} from "class-validator";
-import { Exclude } from 'class-transformer';
+import {IsEmail, IsEnum} from "class-validator";
+import {Exclude} from 'class-transformer';
+
+export enum UserRole {
+  ROLE_DEFAULT,
+  ROLE_OPERATOR,
+  ROLE_ADMIN
+}
 
 @Entity("user")
 export class User {
@@ -25,6 +31,10 @@ export class User {
   @Column({type: 'varchar'})
   @Exclude()
   password: string;
+
+  @IsEnum(UserRole)
+  @Column({type: 'enum', enum: UserRole, default: UserRole.ROLE_DEFAULT})
+  role: UserRole;
 
   @CreateDateColumn()
   created_at: Date;
