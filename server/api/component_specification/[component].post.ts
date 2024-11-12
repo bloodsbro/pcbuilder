@@ -41,12 +41,20 @@ export default defineEventHandler(async (event) => {
     return { ok: false, error: 'errors.component.specification.notFound' }
   }
 
+  const specificationRepository = await getRepository(Specification);
+
+  const specification = await specificationRepository.findOne({ where: { id: data.specificationId } });
+  if (!specification) {
+    return { ok: false, error: 'errors.component.specification.specification.invalid' };
+  }
+
   const componentSpecificationRepository = await getRepository(ComponentSpecification);
   const insert = await componentSpecificationRepository.insert({
     component: component.id,
-    specification: data.specificationId,
+    specification: specification.id,
     value: data.value,
   });
+
   if (insert.identifiers.length === 0) {
     return { ok: false, error: 'errors.component.specification.invalid.name' };
   }
