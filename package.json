@@ -21,6 +21,7 @@
     "vue-router": "latest"
   },
   "devDependencies": {
-    "@types/bcrypt": "^5.0.2"
+    "@types/bcrypt": "^5.0.2",
+    "nuxi": "^3.15.0"
   }
 }
