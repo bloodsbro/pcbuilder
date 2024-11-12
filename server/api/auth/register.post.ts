@@ -1,9 +1,9 @@
 import {defineEventHandler} from "h3";
 import {getRepository} from "#typeorm";
 import {User} from "~~/server/entities/user.entity";
-import {createHmac} from "node:crypto";
 import {createToken} from "~~/server/utils/session";
 import {isStrongPassword, isEmail} from "class-validator";
+import bcrypt from "bcrypt";
 
 interface RegisterData {
   email: string;
@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
 
   const userRepository = await getRepository(User);
 
-  const hash = createHmac('sha256', data.password).digest('hex');
+  const hash = bcrypt.hashSync(data.password, 10);
 
   const id = await userRepository.insert({
     email: data.email,
@@ -38,8 +38,12 @@ export default defineEventHandler(async (event) => {
   }
 
   const user = await userRepository.findOne({ where: { id: id.identifiers[0] } });
+  if (!user) {
+    return { ok: false, error: 'errors.register.panic' };
+  }
 
   setCookie(event, '__session', await createToken(user));
 
+  delete user.password;
   return { ok: true, data: user };
 });
