@@ -22,6 +22,10 @@ export default defineNuxtConfig({
       logging: process.env.TYPEORM_LOGGING === 'true',
       type: "mysql",
     },
+
+    public: {
+      appVersion: '0.3.0'
+    }
   },
   nitro: {
     esbuild: {
