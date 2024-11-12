@@ -24,7 +24,7 @@ export default defineNuxtConfig({
     },
 
     public: {
-      appVersion: '0.3.0'
+      appVersion: '0.3.2'
     }
   },
   nitro: {
