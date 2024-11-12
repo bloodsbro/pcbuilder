@@ -1,6 +1,12 @@
 {
-  "name": "nuxt-app",
+  "name": "pc-builder",
+  "version": "0.3.0",
   "private": true,
+  "description": "PC Builder - система подбора комплектующих",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bloodsbro/pcbuilder"
+  },
   "type": "module",
   "scripts": {
     "build": "nuxt build",
