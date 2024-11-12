@@ -1,19 +1,21 @@
 import {getRepository} from "#typeorm";
 import {User} from "~~/server/entities/user.entity";
 import {ComponentSpecification} from "~~/server/entities/component_specification.entity";
-
-interface ComponentSpecificationPost {
-  specificationId: number;
-  value: string;
-}
+import {AddComponentSpecificationDto} from "~~/server/dto/component_specification/AddComponentSpecificationDto";
+import {validatePostRequest} from "~~/server/utils/validateRequest";
 
 export default defineEventHandler(async (event) => {
   const componentId = Number(event.context.params?.component);
-
-  const query = await readBody<ComponentSpecificationPost>(event);
-  if (!query) {
-    return { ok: false, error: 'errors.component.specification.invalid.name' };
+  if (isNaN(componentId)) {
+    return { ok: false, error: 'errors.component.specification.componentId.invalid' };
   }
+
+  const res = await validatePostRequest(event, AddComponentSpecificationDto);
+  if (res.isErr()) {
+    return { ok: false, error: res.error }
+  }
+
+  const data = res.value;
 
   if (!event.context.user) {
     return { ok: false, error: 'errors.auth.notAuthorized' };
@@ -32,8 +34,8 @@ export default defineEventHandler(async (event) => {
   const componentSpecificationRepository = await getRepository(ComponentSpecification);
   const insert = await componentSpecificationRepository.insert({
     component: componentId,
-    specification: query.specificationId,
-    value: query.value,
+    specification: data.specificationId,
+    value: data.value,
   });
   if (insert.identifiers.length === 0) {
     return { ok: false, error: 'errors.component.specification.invalid.name' };

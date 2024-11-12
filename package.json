@@ -15,6 +15,7 @@
     "class-validator": "^0.14.1",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.4",
+    "neverthrow": "^8.1.1",
     "nuxt": "^3.14.159",
     "nuxt-typeorm": "^0.0.8",
     "vue": "latest",
