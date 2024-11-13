@@ -5,9 +5,8 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  modules: [
-    'nuxt-typeorm',
-  ],
+  modules: ['nuxt-typeorm', '@nuxt/ui', '@pinia/nuxt', 'pinia-plugin-persistedstate/nuxt'],
+  extends: ['@nuxt/ui-pro'],
   runtimeConfig: {
     tokenSecret: process.env.HASH_TOKEN,
     tokenExpiration: 60 * 60 * 24 * 30,
