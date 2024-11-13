@@ -1,4 +1,13 @@
-import {Column, CreateDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  JoinColumn,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from "typeorm";
 import {ComponentSpecification} from "~~/server/entities/component_specification.entity";
 import {ComponentCategories} from "~~/server/dto/component/addComponentDto";
 

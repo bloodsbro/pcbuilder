@@ -1,4 +1,4 @@
-import { H3Event, H3Error, readBody } from 'h3';
+import { H3Event, H3Error, readBody, getQuery } from 'h3';
 import { plainToInstance, ClassConstructor } from 'class-transformer';
 import { validate } from 'class-validator';
 import {ok, err, ResultAsync} from 'neverthrow';
@@ -17,7 +17,7 @@ export async function validatePostRequest<T>(event: H3Event, dtoClass: ClassCons
   return validateReq(dtoClass, body);
 }
 
-export async function validateGetRequest<T>(event: H3Event, dtoClass: ClassConstructor<T>): Promise<T> {
+export async function validateGetRequest<T>(event: H3Event, dtoClass: ClassConstructor<T>): ResultAsync<T, string> {
   const params = await getQuery(event);
 
   return validateReq(dtoClass, params);

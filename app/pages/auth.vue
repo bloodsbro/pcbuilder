@@ -103,9 +103,5 @@ async function onSubmit(data: { email: string; password: string; username: strin
 <style scoped>
 .auth-page {
   max-width: 400px;
-  margin: auto;
-  padding: 20px;
-  height: 100vh;
-  align-content: center;
 }
 </style>
