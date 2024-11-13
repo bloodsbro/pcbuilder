@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.3.3]
+
+### Added
+- Rate limiting middleware
+- Система единиц измерения (Unit entity)
+- Улучшенная валидация запросов через neverthrow
+- Проверка прав администратора для компонентов
+
+### Changed
+- Улучшена обработка ошибок в API
+- Обновлена система валидации через class-validator
+- Добавлены relations для запросов спецификаций
+
+### Fixed
+- Исправлена обработка токена в session.ts
+- Улучшена типизация в ComponentSpecification
+- Добавлена проверка формата данных в validateRequest
+
 ## [0.3.2]
 
 ### Added
