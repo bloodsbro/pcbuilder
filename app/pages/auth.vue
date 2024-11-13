@@ -6,12 +6,14 @@ const fields = [{
   name: 'email',
   type: 'text',
   label: 'Email',
-  placeholder: 'Введите свой e-mail'
+  placeholder: 'Введите свой e-mail',
+  autocomplete: 'email',
 }, {
   name: 'password',
-  label: 'Password',
+  label: 'Пароль',
   type: 'password',
-  placeholder: 'Введите пароль'
+  placeholder: 'Введите пароль',
+  autocomplete: 'current-password',
 }, {
   name: 'remember',
   label: 'Запомнить меня',
@@ -21,8 +23,8 @@ const fields = [{
 
 const validate = (state: any) => {
   const errors: FormError[] = []
-  if (!state.email) errors.push({ path: 'email', message: 'Email is required' })
-  if (!state.password) errors.push({ path: 'password', message: 'Password is required' })
+  if (!state.email) errors.push({ path: 'email', message: 'Поле "Email" обязательное' })
+  if (!state.password) errors.push({ path: 'password', message: 'Поле "Пароль" обязательное' })
   return errors
 }
 
@@ -72,12 +74,13 @@ async function onSubmit(data: { email: string; password: string; username: strin
       <UAuthForm
         :fields="fields"
         :validate="validate"
-        :providers="providers"
+        :providers="/*providers*/[]"
         title="С возвращением!"
         align="top"
         icon="i-heroicons-lock-closed"
         :ui="{ base: 'text-center', footer: 'text-center' }"
         @submit="onSubmit"
+        :submitButton="{label: 'Войти'}"
       >
         <template #description>
           У вас нет аккаунта? <NuxtLink to="/register" class="text-primary font-medium">Регистрация</NuxtLink>.
