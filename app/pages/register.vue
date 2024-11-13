@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { FormError } from '#ui/types'
 
+const error = ref('');
+
 const fields = [{
   name: 'email',
   type: 'text',
@@ -84,8 +86,8 @@ async function onSubmit(data: { email: string; password: string; username: strin
         <template #password-hint>
           <NuxtLink to="/forgot" class="text-primary font-medium">Забыли пароль?</NuxtLink>
         </template>
-        <template #validation>
-          <UAlert color="red" icon="i-heroicons-information-circle-20-solid" title="Error signing in" />
+        <template v-if="error" #validation>
+          <UAlert color="red" icon="i-heroicons-information-circle-20-solid" :title="error" />
         </template>
         <template #footer>
           Входя в систему, вы соглашаетесь с нашими <NuxtLink to="/agreement" class="text-primary font-medium">Условия предоставления услуг</NuxtLink>.
