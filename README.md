@@ -1,75 +1,56 @@
-# Nuxt Minimal Starter
+[Главная](Home) | [Обзор](Overview) | [Развертывание](Deployment) | [База данных](Database) | [API](API) | [Безопасность](Security) | [Аутентификация](Authentication) | [Nuxt Setup](Nuxt-Setup)
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+---
 
-## Setup
+# PC Builder
+Система подбора комплектующих для персональных компьютеров, построенная на Nuxt.js.
 
-Make sure to install dependencies:
+## Описание проекта
 
-```bash
-# npm
-npm install
+PC Builder - это система, позволяющая подбирать и проверять совместимость компонентов для персональных компьютеров. 
 
-# pnpm
-pnpm install
+### Основные возможности
+- Каталог комплектующих с подробными характеристиками
+- Проверка совместимости компонентов
+- Система спецификаций и единиц измерения
+- Управление правами доступа
+- API для работы с компонентами
 
-# yarn
-yarn install
+### Технический стек
 
-# bun
-bun install
-```
+#### Frontend
+- Nuxt.js 3.14+
+- TypeScript 5.6+
+- @nuxt/ui и @nuxt/ui-pro
+- Pinia для управления состоянием
 
-## Development Server
+#### Backend
+- Node.js 18+
+- TypeORM
+- class-validator
+- neverthrow для обработки ошибок
 
-Start the development server on `http://localhost:3000`:
+#### Database
+- MySQL 8+
 
-```bash
-# npm
-npm run dev
+#### Security
+- JWT для авторизации
+- bcrypt для хеширования
+- Rate limiting
+- Role-based access control
 
-# pnpm
-pnpm dev
+## Быстрый старт
 
-# yarn
-yarn dev
+Подробные инструкции по установке и настройке можно найти в [руководстве по развертыванию](docs/deployment.md).
 
-# bun
-bun run dev
-```
+## Версия
 
-## Production
+Текущая версия: 0.3.3
 
-Build the application for production:
+## Лицензия
 
-```bash
-# npm
-npm run build
+[MIT](LICENSE)
 
-# pnpm
-pnpm build
+---
 
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+[Главная](Home) | [Обзор](Overview) | [Развертывание](Deployment) | [База данных](Database) | [API](API) | [Безопасность](Security) | [Аутентификация](Authentication) | [Nuxt Setup](Nuxt-Setup)
